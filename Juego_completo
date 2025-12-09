@@ -1,0 +1,99 @@
+import random
+
+# ============================================
+# JUEGO PIEDRA, PAPEL O TIJERA - PASO 2
+# Contiene estructuras lógicas, repetitivas y comentarios explicativos
+# ============================================
+
+def mostrar_menu():
+    """Muestra el menú principal del juego"""
+    print("\n====== JUEGO: PIEDRA, PAPEL O TIJERA ======")
+    print("1. Piedra")
+    print("2. Papel")
+    print("3. Tijera")
+    print("4. Salir")
+
+def obtener_opcion_usuario():
+    """Solicita la opción al usuario y la valida"""
+    opcion = input("Elige una opción: ")
+
+    if opcion == "1":
+        return "piedra"
+    elif opcion == "2":
+        return "papel"
+    elif opcion == "3":
+        return "tijera"
+    elif opcion == "4":
+        return "salir"
+    else:
+        print("Opción inválida. Intenta nuevamente.")
+        return None
+
+def obtener_opcion_pc():
+    """Genera de forma aleatoria la jugada de la computadora"""
+    opciones = ["piedra", "papel", "tijera"]
+    return random.choice(opciones)
+
+def determinar_ganador(usuario, pc):
+    """Determina el resultado de la ronda"""
+    if usuario == pc:
+        return "empate"
+    elif (usuario == "piedra" and pc == "tijera") or \
+         (usuario == "tijera" and pc == "papel") or \
+         (usuario == "papel" and pc == "piedra"):
+        return "gana"
+    else:
+        return "pierde"
+
+def mostrar_resultado(usuario, pc, resultado):
+    """Muestra el resultado de la partida en pantalla"""
+    print("\nTu elección:", usuario)
+    print("Elección de la computadora:", pc)
+
+    if resultado == "empate":
+        print("Resultado: Empate.")
+    elif resultado == "gana":
+        print("Resultado: ¡Ganaste la ronda!")
+    else:
+        print("Resultado: Perdiste la ronda.")
+
+def mostrar_estadisticas(victorias, derrotas, empates):
+    """Muestra las estadísticas finales del juego"""
+    print("\n====== ESTADÍSTICAS DEL JUEGO ======")
+    print("Victorias:", victorias)
+    print("Derrotas:", derrotas)
+    print("Empates:", empates)
+
+def jugar():
+    """Función principal que controla el flujo del juego"""
+    victorias = 0
+    derrotas = 0
+    empates = 0
+
+    while True:
+        mostrar_menu()
+        opcion_usuario = obtener_opcion_usuario()
+
+        if opcion_usuario == "salir":
+            print("\nGracias por jugar.")
+            mostrar_estadisticas(victorias, derrotas, empates)
+            break
+
+        if opcion_usuario is None:
+            continue
+
+        opcion_pc = obtener_opcion_pc()
+        resultado = determinar_ganador(opcion_usuario, opcion_pc)
+        mostrar_resultado(opcion_usuario, opcion_pc, resultado)
+
+        # Actualización de estadísticas
+        if resultado == "gana":
+            victorias += 1
+        elif resultado == "pierde":
+            derrotas += 1
+        else:
+            empates += 1
+
+# Punto de inicio del programa
+if __name__ == "__main__":
+    jugar()
